@@ -37,38 +37,16 @@ use Test::More;
 
 use Data::Dumper;
 use Data::Thunk;
-use syntax 'function';
 
-fun empty { 
+sub empty { 
     DLL::Empty->new 
 }
-sub node {
-    lazy_new 'DLL::Node', args => [
-        val  => $_[0],
-        prev => (lazy_object {$1} class=>'DLL::Node'),
-        node => (lazy_object {$2} class=>'DLL::Node'),
-        ];
-}
-
-# my $x = lazy_object { warn "EEEEK"; 1 } class=>'DLL::Node';
-# warn Dumper($x);
-# warn $x->does('DLL');
-# die;
 
 my $list = do {
     my ($x, $y, $z);
-    # $x = lazy { node 1, empty, $y };
-    # $y = lazy { node 2, $x,    $z };
-    # $z = lazy { node 3, $y, empty };
-    # $x = node 1, empty, $y;
-    # $y = node 2, $x,    $z;
-    # $z = node 3, $y, empty;
     $x = lazy_new 'DLL::Node', args=>[val=>1, prev=>empty, next=>(lazy_object {$y} class=>'DLL::Node')];
     $y = lazy_new 'DLL::Node', args=>[val=>2, prev=>(lazy_object {$x} class=>'DLL::Node'), next=>(lazy_object {$z} class=>'DLL::Node')];
     $z = lazy_new 'DLL::Node', args=>[val=>3, prev=>(lazy_object {$y} class=>'DLL::Node'), next=>empty];
-    # $x = lazy_object { node 1, empty, $y } class=>'DLL::Node';
-    # $y = lazy_object { node 2, $x,    $z } class=>'DLL::Node';
-    # $z = lazy_object { node 3, $y, empty } class=>'DLL::Node';
     $x;
 };
 

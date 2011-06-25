@@ -41,7 +41,8 @@ sub ref {
 	CORE::ref($_[0]->$vivify_scalar());
 }
 sub does {
-	$_[0]->$vivify_scalar($_[1]);
+    my $self = shift;
+	$self->$vivify_scalar()->does(@_);
 }
 
 sub AUTOLOAD {

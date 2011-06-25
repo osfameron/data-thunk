@@ -58,6 +58,10 @@ sub force ($) {
 {
 	package Data::Thunk::NoOverload;
 	# we temporarily bless into this to avoid overloading
+    sub does {
+        my ($self, $role) = @_;
+        $self->{class}->does($role);
+    }
 }
 
 1;
