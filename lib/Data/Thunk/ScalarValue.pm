@@ -40,6 +40,9 @@ use overload (
 sub ref {
 	CORE::ref($_[0]->$vivify_scalar());
 }
+sub does {
+	$_[0]->$vivify_scalar($_[1]);
+}
 
 sub AUTOLOAD {
 	my ( $method ) = ( our $AUTOLOAD =~ /([^:]+)$/ );
