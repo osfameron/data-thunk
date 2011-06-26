@@ -42,6 +42,8 @@ sub empty {
     DLL::Empty->new 
 }
 
+# this is not very pretty (damn this lack of typechecking and pervasive
+# laziness!)
 my $list = do {
     my ($x, $y, $z);
     $x = lazy_new 'DLL::Node', args=>[val=>1, prev=>empty, next=>(lazy_object {$y} class=>'DLL::Node')];
